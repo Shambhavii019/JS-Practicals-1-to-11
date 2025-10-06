@@ -1,0 +1,12 @@
+<p id="output">This is the initial text.</p>
+<button onclick="updateText()">Click Me</button>
+
+<script>
+function updateText() {
+console.log("Button clicked!");
+document.getElementById("output").innerHTML = "This is the updated text.";
+let name = prompt("Please enter your name:");
+console.log("Name entered:", name);
+document.getElementById("output").innerHTML += "<br>Your name is: " + name;
+}
+</script>

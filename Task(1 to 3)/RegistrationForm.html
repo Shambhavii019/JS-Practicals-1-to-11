@@ -1,0 +1,57 @@
+<html>
+<head>
+  <title>User Registration</title>
+</head>
+<body>
+  <h2>User Registration Form</h2>
+
+  <form id="registrationForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p id="output"></p>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Prevent page reload
+
+      // Capture data
+      const user = {
+        name: this.name.value.trim(),
+        age: Number(this.age.value),
+        email: this.email.value.trim()
+      };
+
+      // Destructure user object
+      const { name, age, email } = user;
+
+      // Basic validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let message = '';
+
+      if (name === '') {
+        message = "Error: Name cannot be empty.";
+      } else if (isNaN(age) || age < 13 || age > 100) {
+        message = "Error: Age must be a number between 13 and 100.";
+      } else if (!emailPattern.test(email)) {
+        message = "Error: Invalid email format.";
+      } else {
+        message = `Welcome, ${name} (Age: ${age}). Your email ${email} has been registered successfully!`;
+      }
+
+      // Display result
+      document.getElementById("output").innerText = message;
+      console.log(message);
+    });
+  </script>
+</body>
+</html>

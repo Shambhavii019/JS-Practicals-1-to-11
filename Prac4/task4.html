@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <script>
+            let password = prompt("Enter password:")
+            let correctPassword = "JS@1234"
+            let Message = "Welcome to the secret message!";
+
+            function Secret(Message, correctPassword) {
+                if (password === correctPassword) {
+                    return Message;
+                    document.write(Message);
+                    console.log(Message);
+                } else {
+                    return "Access Denied";
+                    document.write("Access Denied");
+                    console.log("Access Denied");
+                }
+}
+            console.log(Secret(Message, correctPassword));
+            document.write(Secret(Message, correctPassword));
+
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <script>
+            let balance = 10000; 
+            let type = prompt("Enter your transaction type - 1 for Withdraw, 2 for Deposit, 3 to show Balance : ");
+            switch(type) {
+                case "1" :
+                    var amount = parseInt(prompt("Enter the amount to withdraw: "));
+                    if (amount <= balance) {
+                        balance -= amount;
+                        console.log("Withdrawal successful! New balance: " + balance);
+                        document.write("Withdrawal successful! New balance: " + balance);
+                    } else {
+                        console.log("Insufficient funds!");
+                        document.write("Insufficient funds!");
+                    }
+                    break;
+                case "2" :
+                    var amount = parseInt(prompt("Enter the amount to deposit: "));
+                    balance += amount;
+                    console.log("Deposit successful! New balance: " + balance);
+                    document.write("Deposit successful! New balance: " + balance);
+                    break;
+                case "3" :
+                    console.log("Current balance: " + balance);
+                    document.write("Current balance: " + balance);
+                    break;
+                default:
+                    console.log("Invalid transaction type");
+                    document.write("Invalid transaction type");
+
+            }
+        </script>
+    </body>
+</html>

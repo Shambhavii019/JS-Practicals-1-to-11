@@ -1,0 +1,55 @@
+
+<html>
+<head>
+  
+  <title>Trip Planner Tool</title>
+
+</head>
+<body>
+
+  <h2>Plan Your Trip With Us</h2>
+
+  <form id="tripForm">
+    <label>Destination:
+      <input type="text" id="destination" required />
+    </label>
+    <br> <br>
+    <label>Start Date:
+      <input type="date" id="startDate" required />
+    </label> <br> <br>
+    <label>End Date:
+      <input type="date" id="endDate" required />
+    </label> <br> <br>
+    <label>Mode of Travel:</label> <br>
+    <label><input type="radio" name="travelMode" value="Car" required> Car</label><br>
+    <label><input type="radio" name="travelMode" value="Train"> Train</label><br>
+    <label><input type="radio" name="travelMode" value="Flight"> Flight</label><br><br>
+    <button type="submit">Plan Trip</button> <br> <br>
+  </form>
+
+  <div class="trip-output" id="tripMessage"></div>
+
+  <script>
+    document.getElementById("tripForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const destination = document.getElementById("destination").value;
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+
+      const travelMode = document.querySelector('input[name="travelMode"]:checked');
+      if (!travelMode) {
+        const warning = "Please select a mode of travel.";
+        document.getElementById("tripMessage").textContent = warning;
+        console.log(warning);
+        return;
+      }
+
+      const mode = travelMode.value;
+      const message = `Trip to ${destination} by ${mode} from ${start} to ${end} planned!`;
+      document.getElementById("tripMessage").textContent = message;
+      console.log(message);
+    });
+  </script>
+</body>
+</html>

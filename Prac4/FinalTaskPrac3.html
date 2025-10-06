@@ -1,0 +1,126 @@
+<html>
+<head>
+  <title>Annual Inter-Department Club Competition</title>
+  <style>
+    .winner-glow {
+      border: 2px solid hotpink;
+      box-shadow: 0 0 15px pink;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Annual Inter-Department Club Competition</h1>
+
+<div id="input-area"></div>
+
+<button id="submit-btn">Submit Results</button>
+
+<div id="results"></div>
+
+<footer id="footer"></footer>
+
+<script>
+  const categories = {
+    technology: 1.8,
+    fashion: 1.95,
+    literary: 1.3,
+    music: 1.67,
+    innovation: 1.52
+  };
+
+  const teamInputsContainer = document.getElementById('input-area');
+
+  // Create input fields for 3 teams
+  for (let i = 1; i <= 3; i++) {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <h3>Team ${i} Details</h3>
+      <label>Team Name: <input type="text" id="teamName${i}"></label><br>
+      <label>Leader ID: <input type="text" id="teamID${i}"></label><br>
+      <label>Round 1 Score: <input type="range" min="0" max="100" value="50" id="round1_${i}" 
+        oninput="document.getElementById('r1_val${i}').textContent=this.value"> 
+        <span id="r1_val${i}">50</span>
+      </label><br>
+      <label>Round 2 Score: <input type="number" min="0" max="100" id="round2_${i}"></label><br>
+      <label>Round 3 Category:
+        <select id="round3_${i}">
+          ${Object.keys(categories).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+        </select>
+      </label><br>
+      <label>Fun Fact about Teammate: <input type="text" id="funFact${i}"></label>
+      <hr>
+    `;
+    teamInputsContainer.appendChild(div);
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    const teams = [];
+
+    for (let i = 1; i <= 3; i++) {
+      const name = document.getElementById(`teamName${i}`).value;
+      const id = document.getElementById(`teamID${i}`).value;
+      const r1 = parseFloat(document.getElementById(`round1_${i}`).value);
+      const r2 = parseFloat(document.getElementById(`round2_${i}`).value);
+      const r3Cat = document.getElementById(`round3_${i}`).value;
+      const r3Weight = categories[r3Cat];
+      const funFact = document.getElementById(`funFact${i}`).value;
+
+      // Weighted total
+      let total = (r1 * 0.4) + (r2 * 0.3) + (100 * r3Weight); 
+      if (r2 > 75) total += 5; // Bonus points
+
+      // Grade assignment
+      let grade;
+      if (total >= 90) grade = 'A';
+      else if (total >= 75) grade = 'B';
+      else if (total >= 60) grade = 'C';
+      else grade = 'F';
+
+      // Remark via switch
+      let remark;
+      switch (grade) {
+        case 'A': remark = 'Outstanding'; break;
+        case 'B': remark = 'Strong'; break;
+        case 'C': remark = 'Average'; break;
+        case 'F': remark = 'Needs Improvement'; break;
+      }
+
+      teams.push({ name, id, r1, r2, r3Cat, funFact, total, grade, remark });
+    }
+
+    // Sort teams by total with tie-breakers
+    teams.sort((a, b) => {
+      if (b.total !== a.total) return b.total - a.total;
+      if (b.r2 !== a.r2) return b.r2 - a.r2;
+      return categories[b.r3Cat] - categories[a.r3Cat];
+    });
+
+    // Display results
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+    teams.forEach((team, index) => {
+      const glowClass = index === 0 ? "winner-glow" : "";
+      resultsDiv.innerHTML += `
+        <div class="${glowClass}">
+          <h3>${index === 0 ? "🏆 " : ""}${team.name} (ID: ${team.id})</h3>
+          <p><strong>Weighted Total:</strong> ${team.total.toFixed(2)}</p>
+          <p><strong>Grade:</strong> ${team.grade}</p>
+          <p><strong>Remark:</strong> ${team.remark}</p>
+        </div>
+        <hr>
+      `;
+    });
+
+    // Footer with winner info
+    const now = new Date();
+    document.getElementById('footer').innerHTML =
+      `Winner: <strong>${teams[0].name}</strong> | 
+       Time: ${now.toLocaleString()}<br>
+       Fun Fact about teammate: ${teams[0].funFact}`;
+  });
+</script>
+
+</body>
+</html>

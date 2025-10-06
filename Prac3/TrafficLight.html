@@ -1,0 +1,27 @@
+<html>
+    <body>
+        <script>
+            let light = prompt("Enter the traffic light color (red, yellow, green): ");
+            light = light.toLowerCase();
+            switch (light) {
+                case "red":
+                    console.log("Stop! The light is red.");
+                    document.write("Stop! The light is red.");
+                    break;
+                case "yellow":
+                    console.log("Wait! The light is yellow.");
+                    document.write("Wait! The light is yellow.");
+                    break;
+                case "green":
+                    console.log("Go! The light is green.");
+                    document.write("Go! The light is green.");
+                    break;
+
+                default:
+                    console.log("Invalid color");
+                    document.write("Invalid color");
+            }
+
+        </script>
+    </body>
+</html>

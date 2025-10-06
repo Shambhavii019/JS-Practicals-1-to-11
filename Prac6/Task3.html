@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>Email Validation</title>
+</head>
+<body>
+<script>
+  let email = "student@example.com";
+
+  // Regex for email validation
+  let regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  // Validate email
+  let isValid = regex.test(email);
+
+  // Print input and output
+  document.write("Input: " + email + "<br>");
+  document.write("Valid Email? " + isValid);
+</script>
+</body>
+</html>

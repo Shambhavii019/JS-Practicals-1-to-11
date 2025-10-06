@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Name Formatter</title>
+</head>
+<body>
+<script>
+  let inputName = "jOhN doE";
+
+  
+  inputName = inputName.trim();
+
+  let parts = inputName.split(" ");
+  for (let i = 0; i < parts.length; i++) {
+    parts[i] = parts[i].charAt(0).toUpperCase() + parts[i].slice(1).toLowerCase();
+  }
+
+  let formattedName = parts.join(" ");
+
+
+  document.write("Input: " + inputName + "<br>");
+  document.write("Output: " + formattedName);
+</script>
+</body>
+</html>

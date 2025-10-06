@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIT Nagpur - Student Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('sit-nagpur-campus.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    img {
+      width: 120px;
+      height: auto;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-top: 20px;
+    }
+
+    p {
+      color: #34495e;
+      font-size: 18px;
+    }
+
+    a {
+      color: #2980b9;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <img src="sit-nagpur-logo.png" alt="SIT Nagpur Logo">
+    <h1>Student Information</h1>
+    <p>Here you can display student profiles, academic details, or other useful info for CSE students.</p>
+
+    <button onclick="enterDetails()">Enter details to proceed</button>
+            <script src="details.js"></script>
+
+    <a href="department.html">Back to Department Page</a>
+  </div>
+</body>
+</html>

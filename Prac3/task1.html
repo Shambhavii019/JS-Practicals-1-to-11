@@ -1,0 +1,112 @@
+
+<html>
+<head>
+  
+  <title>Live Feedback Form for Website</title>
+
+</head>
+<body>
+
+  <h2>Website Feedback Form</h2>
+
+  <form id="feedbackForm">
+
+    <label>
+      Name:
+      <input type="text" id="name" />
+      <br>
+    </label>
+
+    <label>
+      Phone Number:
+      <input type="number" id="phone" />
+        <br>
+    </label>
+
+    <label>
+      Email:
+      <input type="email" id="email" />
+        <br>
+    </label>
+
+    <label>Rate Your Experience: <br> </label>
+    <label><input type="radio" name="experience" value="Excellent"> Excellent</label>
+    <label><input type="radio" name="experience" value="Good"> Good</label>
+    <label><input type="radio" name="experience" value="Average"> Average</label>
+
+    <br>
+
+    <label>What did you like most about our website?<br></label>
+    <label><input type="checkbox" class="feature" value="Content Quality"> Content Quality <br></label>
+    <label><input type="checkbox" class="feature" value="First Looks"> First Looks <br></label>
+    <label><input type="checkbox" class="feature" value="Easy to View"> Easy to View<br></label>
+    <label><input type="checkbox" class="feature" value="Easy to Navigate"> Easy to Navigate<br></label>
+    <label><input type="checkbox" class="feature" value="Fast Loading Speed"> Fast Loading Speed<br></label>
+
+    <label>
+      Star Rating (0 to 5):
+      <input type="range" id="star" min="0" max="5" step="1">
+      <span id="starValue">0</span>
+    </label>
+<br> 
+    <label>
+      Feedback:
+      <textarea id="feedback" rows="4" cols="50"></textarea>
+    </label>
+<br>
+  </form>
+
+  <div class="feedback-output">
+    <h3>Live Preview</h3>
+    <p><strong>Name:</strong> <span id="outName"></span></p>
+    <p><strong>Phone:</strong> <span id="outPhone"></span></p>
+    <p><strong>Email:</strong> <span id="outEmail"></span></p>
+    <p><strong>Experience:</strong> <span id="outExperience"></span></p>
+    <p><strong>Best Features:</strong> <span id="outFeatures"></span></p>
+    <p><strong>Star Rating:</strong> <span id="outStar"></span></p>
+    <p><strong>Feedback:</strong> <span id="outFeedback"></span></p>
+  </div>
+
+  <script>
+    // Real-time input capture (keyup or change)
+    document.getElementById('name').addEventListener('input', function () {
+      document.getElementById('outName').textContent = this.value;
+    });
+
+    document.getElementById('phone').addEventListener('input', function () {
+      document.getElementById('outPhone').textContent = this.value;
+    });
+
+    document.getElementById('email').addEventListener('input', function () {
+      document.getElementById('outEmail').textContent = this.value;
+    });
+
+    document.getElementById('star').addEventListener('input', function () {
+      document.getElementById('starValue').textContent = this.value;
+      document.getElementById('outStar').textContent = this.value;
+    });
+
+    document.getElementById('feedback').addEventListener('keyup', function () {
+      document.getElementById('outFeedback').textContent = this.value;
+    });
+
+    document.querySelectorAll('input[name="experience"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        document.getElementById('outExperience').textContent = this.value;
+      });
+    });
+
+    document.querySelectorAll('.feature').forEach(checkbox => {
+      checkbox.addEventListener('change', function () {
+        let selected = [];
+        document.querySelectorAll('.feature:checked').forEach(cb => {
+          selected.push(cb.value);
+        });
+        document.getElementById('outFeatures').textContent = selected.join(', ');
+      });
+    });
+  </script>
+
+</body>
+</html>
+

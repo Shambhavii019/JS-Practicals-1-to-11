@@ -1,0 +1,75 @@
+<html>
+<body>
+<script>
+
+// 1. Modify reverseNumber to work for negative numbers
+function reverseNumber(num) {
+    if (typeof num !== "number" || isNaN(num)) {
+        throw new Error("Invalid number input");
+    }
+    let isNegative = num < 0;
+    let reversed = parseInt(Math.abs(num).toString().split("").reverse().join(""));
+    return isNegative ? -reversed : reversed;
+}
+
+function isPalindrome(num) {
+    return num === reverseNumber(num);
+}
+
+try {
+    let num = -1221;
+    document.write("Reversed: " + reverseNumber(num) + "<br>");
+    document.write("Is Palindrome: " + isPalindrome(num) + "<br><br>");
+} catch (err) {
+    document.write("Error: " + err.message + "<br>");
+}
+
+// 2. Check if a string is a palindrome (word-based)
+function isWordPalindrome(str) {
+    if (typeof str !== "string") throw new Error("Input must be a string");
+    let clean = str.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return clean === clean.split("").reverse().join("");
+}
+
+try {
+    let word = "Madam";
+    document.write("Word: " + word + "<br>");
+    document.write("Is Word Palindrome: " + isWordPalindrome(word) + "<br><br>");
+} catch (err) {
+    document.write("Error: " + err.message + "<br>");
+}
+
+// 3. Square root with try...catch
+function safeSquareRoot(num) {
+    if (typeof num !== "number" || isNaN(num)) throw new Error("Invalid number input");
+    if (num < 0) throw new Error("Cannot find square root of negative number");
+    return Math.sqrt(num);
+}
+
+try {
+    let number = 25;
+    document.write("Square root of " + number + " is: " + safeSquareRoot(number) + "<br><br>");
+} catch (err) {
+    document.write("Error: " + err.message + "<br>");
+}
+
+// 4. Prime number check (arrow function + try...catch)
+const isPrime = (num) => {
+    if (typeof num !== "number" || isNaN(num)) throw new Error("Invalid input");
+    if (num <= 1) return false;
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+};
+
+try {
+    let testNum = 29;
+    document.write("Is " + testNum + " Prime? " + isPrime(testNum) + "<br>");
+} catch (err) {
+    document.write("Error: " + err.message + "<br>");
+}
+
+</script>
+</body>
+</html>

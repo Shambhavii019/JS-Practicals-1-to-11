@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Two Player Dice Game</title>
+</head>
+<body>
+<center>
+<script>
+  let round = 1;
+  let player1Total = 0;
+  let player2Total = 0;
+
+  function playRound() {
+    // Player 1 rolls
+    let roll1 = Math.floor(Math.random() * 6) + 1;
+    player1Total += roll1;
+
+    // Player 2 rolls
+    let roll2 = Math.floor(Math.random() * 6) + 1;
+    player2Total += roll2;
+
+    document.write("<center>");
+    document.write("<h2>Round " + round + "</h2>");
+    document.write("<p>🎲 Player 1 rolled: " + roll1 + " (Total: " + player1Total + ")</p>");
+    document.write("<p>🎲 Player 2 rolled: " + roll2 + " (Total: " + player2Total + ")</p>");
+
+    if (round < 3) {
+      round++;
+      document.write('<button onclick="playRound()">Next Round</button>');
+    } else {
+      document.write("<h2>Game Over!</h2>");
+      if (player1Total > player2Total) {
+        document.write("<p>🏆 Player 1 Wins!</p>");
+      } else if (player2Total > player1Total) {
+        document.write("<p>🏆 Player 2 Wins!</p>");
+      } else {
+        document.write("<p>🤝 It\'s a Tie!</p>");
+      }
+      document.write('<button onclick="location.reload()">Play Again</button>');
+    }
+    document.write("</center>");
+  }
+
+  document.write("<center>");
+  document.write("<h1>🎲 Two Player Dice Game 🎲</h1>");
+  document.write('<button onclick="playRound()">Start Game</button>');
+  document.write("</center>");
+</script>
+</center>
+</body>
+</html>

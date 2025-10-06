@@ -1,0 +1,172 @@
+<html>
+<body>
+<script>
+
+//Part 1 : Functions, Scope & Closures 
+
+// 1. Function Declaration - Compare two numbers (PINs)
+function getGreater(a, b) {
+    return (a > b) ? a : b;
+}
+
+// 2. Function Expression - Factorial (hash generator)
+const factorial = function(n) {
+    if (n < 0) return "Not defined for negatives";
+    let result = 1;
+    for (let i = 1; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+};
+
+// 3. Arrow Function - Check if message contains "JavaScript"
+const checkScript = (str) => str.includes("JavaScript");
+
+// 4. Closure - Secure message
+function secureMessage(password) {
+    let secret = "Your secret message is stored securely!";
+    return function(enteredPass) {
+        if (enteredPass === password) {
+            return secret;
+        } else {
+            return "Access Denied";
+        }
+    };
+}
+
+// 5. Scope demonstration
+let lockerName = "MyLocker"; // global scope
+
+function scopeDemo() {
+    let pin = 1234; // function scope
+    {
+        let tempAccess = "TempGranted"; // block scope
+        document.write("Inside block: " + tempAccess + "<br>");
+    }
+    document.write("Inside function: pin = " + pin + "<br>");
+}
+scopeDemo();
+document.write("Global lockerName = " + lockerName + "<br><br>");
+
+
+// Part 2 : Error Handling & Utilities 
+
+// Reverse number with error handling
+function reverseNumber(num) {
+    try {
+        if (typeof num !== "number" || isNaN(num)) throw new Error("Invalid number");
+        let isNegative = num < 0;
+        let rev = parseInt(Math.abs(num).toString().split("").reverse().join(""));
+        return isNegative ? -rev : rev;
+    } catch (err) {
+        return "Error: " + err.message;
+    }
+}
+
+// Palindrome PIN check
+function isPalindrome(num) {
+    return num === reverseNumber(num);
+}
+
+// Word palindrome check (ignore spaces & case)
+function isWordPalindrome(str) {
+    let clean = str.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return clean === clean.split("").reverse().join("");
+}
+
+// Square root with error handling
+function safeSqrt(num) {
+    try {
+        if (typeof num !== "number" || isNaN(num)) throw new Error("Invalid input");
+        if (num < 0) throw new Error("Negative numbers not allowed");
+        return Math.sqrt(num);
+    } catch (err) {
+        return "Error: " + err.message;
+    }
+}
+
+// Prime number checker (arrow function + error handling)
+const isPrime = (num) => {
+    if (typeof num !== "number" || isNaN(num) || num < 2) throw new Error("Invalid input");
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+};
+
+
+// Final Integration : Menu Simulation 
+function menu() {
+    let choice = prompt(
+`Digital Locker Menu:
+1. Compare two PINs
+2. Factorial Hash
+3. Check if note contains "JavaScript"
+4. Store & access secret message
+5. Reverse number & check palindrome
+6. Word palindrome check
+7. Square root with error handling
+8. Prime number check
+Enter your choice (1-8):`
+    );
+
+    switch(choice) {
+        case "1":
+            let pin1 = parseInt(prompt("Enter first PIN:"));
+            let pin2 = parseInt(prompt("Enter second PIN:"));
+            alert("Stronger PIN is: " + getGreater(pin1, pin2));
+            break;
+
+        case "2":
+            let n = parseInt(prompt("Enter number for factorial:"));
+            alert("Factorial hash = " + factorial(n));
+            break;
+
+        case "3":
+            let msg = prompt("Enter your note:");
+            alert("Contains JavaScript? " + checkScript(msg));
+            break;
+
+        case "4":
+            let pass = prompt("Set your locker password:");
+            const locker = secureMessage(pass);
+            let attempt = prompt("Enter password to access message:");
+            alert(locker(attempt));
+            break;
+
+        case "5":
+            let num = parseInt(prompt("Enter number:"));
+            let rev = reverseNumber(num);
+            alert("Reversed = " + rev + "\nIs Palindrome? " + isPalindrome(num));
+            break;
+
+        case "6":
+            let word = prompt("Enter word to check palindrome:");
+            alert("Is Palindrome? " + isWordPalindrome(word));
+            break;
+
+        case "7":
+            let sq = parseFloat(prompt("Enter number for square root:"));
+            alert("Result: " + safeSqrt(sq));
+            break;
+
+        case "8":
+            try {
+                let testNum = parseInt(prompt("Enter number to check prime:"));
+                alert("Is Prime? " + isPrime(testNum));
+            } catch (err) {
+                alert("Error: " + err.message);
+            }
+            break;
+
+        default:
+            alert("Invalid choice. Try again!");
+    }
+}
+
+// Run the menu
+menu();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <script>
+            const student = {Name:'Ria', RollNo: 19, Marks: {Math: 85, Science: 90, History: 88, English: 78, Art:92} };
+            // Destructure the student object
+            const {Name, RollNo, Marks} = student;
+            const {Math, Science, History, English, Art} = Marks;
+
+            // Calculate total marks and the percentage
+            const TotalMarks = Math + Science + History + English + Art;
+            const Percentage = (TotalMarks / 500) * 100;
+
+            console.log(`Name: ${Name}`);
+            console.log(`Roll No: ${RollNo}`);
+            console.log(`Marks: Math: ${Math}, Science: ${Science}, History: ${History}, English: ${English}, Art: ${Art}`);
+                        
+            console.log(`Total Marks: ${TotalMarks}`);
+            console.log(`Percentage: ${Percentage}%`);
+            // Display the report card
+            document.write(`Report Card`);
+            document.write(`<p>Name: ${Name}</p>`);
+            document.write(`<p>Roll No: ${RollNo}</p>`);
+            document.write(`<br>`);
+            document.write(`<p>Subject Marks:</p>`);
+            document.write(`Math: ${Math}, `);
+            document.write(`Science: ${Science}, `);
+            document.write(`History: ${History}, `);
+            document.write(`English: ${English}, `);
+            document.write(`Art: ${Art} <br>`);
+            document.write(`Total Marks: ${TotalMarks}`);
+            document.write(`<br>`);
+            document.write(`Percentage: ${Percentage}%`);
+        </script>
+    </body>
+</html>

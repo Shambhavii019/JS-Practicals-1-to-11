@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <script>
+            const factorial = function(n) {
+                return (n <= 1) ? 1 : n * factorial(n - 1);
+            };
+
+let n = parseInt(prompt("Enter a number to calculate its factorial:"));
+document.write("The factorial of " + n + " is: " + factorial(n));
+console.log(factorial(n)); 
+
+
+        </script>
+    </body>
+</html>

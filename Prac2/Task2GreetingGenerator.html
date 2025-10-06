@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <script>
+            // Arrow function with default parameters
+const generateGreeting = (
+  name = "Guest",
+  role = "Visitor",
+  location = "Unknown"
+) => `Hello ${name}! Your role is ${role} and you are currently in ${location}.`;
+
+// Calling the function with different combinations
+
+console.log(generateGreeting("Riya", "Developer", "Mumbai"));  
+// Hello Riya! Your role is Developer and you are currently in Mumbai.
+
+console.log(generateGreeting("Aman", "Designer"));  
+// Hello Aman! Your role is Designer and you are currently in Unknown.
+
+console.log(generateGreeting("Priya"));  
+// Hello Priya! Your role is Visitor and you are currently in Unknown.
+
+console.log(generateGreeting());  
+// Hello Guest! Your role is Visitor and you are currently in Unknown.
+
+// Displaying the greeting in the document
+document.write(`<h2>Greeting Messages</h2>`);
+document.write(`<p>${generateGreeting("Riya", "Developer", "Mumbai")}</p>`);
+document.write(`<p>${generateGreeting("Aman", "Designer")}</p>`);
+document.write(`<p>${generateGreeting("Priya")}</p>`);
+document.write(`<p>${generateGreeting()}</p>`);
+
+
+        </script>
+    </body>
+</html>

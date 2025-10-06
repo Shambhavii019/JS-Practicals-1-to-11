@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Resume Processor - SHAMBHAVII V. JAISWAL (23070521133) </title>
+</head>
+<body>
+<script>
+// 1. Format Name
+function formatName(rawName) {
+  // TODO: Trim spaces, split into words, capitalize each word properly
+  let formattedName = rawName
+    .trim()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+  return formattedName;
+}
+
+// 2. Extract and Validate Emails
+function extractEmails(text) {
+  // TODO: Use regex to find all emails
+  // Return array of emails
+  return text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/g) || [];
+}
+
+// 3. Validate Mobile Number
+function validateMobile(number) {
+  // TODO: Check if starts with 6/7/8/9 and has exactly 10 digits
+  // Return valid number or "Invalid phone number"
+  return /^[6-9]\d{9}$/.test(number) ? number : "Invalid phone number";
+}
+
+// 4. Process Skills
+function processSkills(rawSkills) {
+  // TODO: Split by comma, trim each skill, return array
+  return rawSkills.split(",").map(skill => skill.trim());
+}
+
+// 5. Extract Hashtags
+function extractHashtags(text) {
+  // TODO: Use regex to find all hashtags (#...)
+  // Return array of hashtags
+  return text.match(/#\w+/g) || [];
+}
+
+// 6. Word Count
+function countWords(text) {
+  // TODO: Split by spaces, filter empty items, return count
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+// 7. Vowel Count
+function countVowels(text) {
+  // TODO: Loop through text and count vowels (a, e, i, o, u)
+  return (text.match(/[aeiouAEIOU]/g) || []).length;
+}
+
+// -------------------------
+// Main Program
+// -------------------------
+function processResume(resumeText) {
+  let output = {};
+
+  // Extract Name
+  let nameMatch = resumeText.match(/Name:\s*(.+)/i);
+  output.name = nameMatch ? formatName(nameMatch[1]) : "";
+
+  // Extract Emails
+  let emails = extractEmails(resumeText);
+  output.email = emails[0] || "";
+  output.emailCount = emails.length;
+
+  // Extract Phone
+  let phoneMatch = resumeText.match(/Phone:\s*(\d+)/i);
+  output.phone = phoneMatch ? validateMobile(phoneMatch[1]) : "";
+
+  // Extract Skills
+  let skillsMatch = resumeText.match(/Skills:\s*(.+)/i);
+  output.skills = skillsMatch ? processSkills(skillsMatch[1]) : [];
+
+  // Extract Hashtags
+  output.hashtags = extractHashtags(resumeText);
+
+  // Count Words
+  output.wordCount = countWords(resumeText);
+
+  // Count Vowels
+  output.vowelCount = countVowels(resumeText);
+
+  return output;
+}
+
+// Run Program
+
+let resume = prompt("Enter resume text:");
+let result = processResume(resume);
+
+// Display with document.write()
+document.write("<h2>Resume Processing Result</h2>");
+
+document.write("Name → " + result.name + "<br>");
+document.write(result.emailCount + " emails extracted<br>");
+document.write("Phone → " + result.phone + "<br>");
+document.write("Skills → " + JSON.stringify(result.skills) + "<br>");
+document.write("Hashtags → " + JSON.stringify(result.hashtags) + "<br>");
+document.write("Word Count → " + result.wordCount + "<br>");
+document.write("Vowel Count → " + result.vowelCount + "<br>");
+</script>
+</body>
+</html>

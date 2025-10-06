@@ -1,0 +1,31 @@
+<html>
+  <body>
+    <script>
+      // Create an empty array for student ages
+      let studentAges = [];
+
+      // Take 10 inputs from the user
+      for (let i = 0; i < 10; i++) {
+        let age = parseInt(prompt("Enter age of student " + (i + 1) + ":"));
+        studentAges.push(age);
+      }
+
+      document.write("Initial ages: " + studentAges + "<br><br>");
+
+      // Use push() to add a new age
+      studentAges.push(25);
+      document.write("After push (added 25): " + studentAges + "<br><br>");
+
+      // Use pop() to remove the last age
+      studentAges.pop();
+      document.write("After pop (removed last age): " + studentAges + "<br><br>");
+
+      // Print the length of the array
+      document.write("Length of array: " + studentAges.length + "<br><br>");
+
+      // Use map() to calculate double of each age
+      let doubledAges = studentAges.map(age => age * 2);
+      document.write("Doubled ages: " + doubledAges + "<br><br>");
+    </script>
+  </body>
+</html>

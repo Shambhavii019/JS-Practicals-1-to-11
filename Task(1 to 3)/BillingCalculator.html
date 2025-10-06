@@ -1,0 +1,40 @@
+<html>
+<head>
+  <title>Billing Calculator</title>
+</head>
+<body>
+  <h2>Billing Calculator</h2>
+
+  <form id="billingForm">
+    <label for="item">Item Name:</label>
+    <input type="text" id="item" name="item" required><br><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required><br><br>
+
+    <label for="price">Price per Unit (₹):</label>
+    <input type="number" id="price" name="price" min="0" required><br><br>
+
+    <button type="submit">Calculate</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("billingForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Prevent form from refreshing the page
+
+      const item = this.item.value;
+      const quantity = parseInt(this.quantity.value);
+      const price = parseFloat(this.price.value);
+
+      const total = quantity * price;
+
+      const message = `You ordered ${quantity} ${item}(s) at ₹${price} each. Total: ₹${total}.`;
+
+      document.getElementById("result").innerText = message;
+      console.log(message);
+    });
+  </script>
+</body>
+</html>

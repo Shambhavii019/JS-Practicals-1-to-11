@@ -1,0 +1,62 @@
+<html>
+<body>
+<script>
+
+// Practical 5 Final Task
+
+// Part A – Setup the Cart
+let cart = [
+    { id: 1, name: "Pen", price: 20, qty: 2, category: "stationery" },
+    { id: 2, name: "Mug", price: 150, qty: 1, category: "kitchen" },
+    { id: 3, name: "Notebook", price: 80, qty: 3, category: "stationery" },
+    { id: 4, name: "Headphones", price: 500, qty: 1, category: "electronics" }
+];
+
+// Part B – Subtotal per Item
+let itemTotals = cart.map(item => item.price * item.qty);
+
+// Part C – Item-Level Discount (5% if qty ≥ 3)
+let discountedItemTotals = cart.map(item => {
+    let subtotal = item.price * item.qty;
+    if (item.qty >= 3) {
+        subtotal = subtotal - (subtotal * 0.05);
+    }
+    return subtotal;
+});
+
+// Part D – Category-Level Discount (10% if stationery total > 200)
+let stationeryItems = cart.filter(item => item.category === "stationery");
+let stationeryTotal = stationeryItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+let stationeryDiscount = (stationeryTotal > 200) ? stationeryTotal * 0.10 : 0;
+
+// Part E – Final Total
+let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+let itemDiscounts = cart.reduce((sum, item) => {
+    if (item.qty >= 3) {
+        let original = item.price * item.qty;
+        return sum + (original * 0.05);
+    }
+    return sum;
+}, 0);
+
+let finalTotal = subtotal - itemDiscounts - stationeryDiscount;
+
+// Receipt Output 
+document.write("<h3>Shopping Cart Receipt</h3>");
+cart.forEach(item => {
+    let subtotal = item.price * item.qty;
+    if (item.qty >= 3) {
+        document.write(`Item: ${item.name} (x${item.qty}) = ${subtotal} → discount applied<br>`);
+    } else {
+        document.write(`Item: ${item.name} (x${item.qty}) = ${subtotal}<br>`);
+    }
+});
+
+document.write("---------------------------------<br>");
+document.write("Subtotal: " + subtotal + "<br>");
+document.write("Item Discounts: " + itemDiscounts.toFixed(2) + "<br>");
+document.write("Stationery Discount: " + stationeryDiscount.toFixed(2) + "<br>");
+document.write("Final Total: " + finalTotal.toFixed(2) + "<br>");
+</script>
+</body>
+</html>

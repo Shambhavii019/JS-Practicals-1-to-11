@@ -1,0 +1,83 @@
+<html>
+    <body>
+        <script>
+          
+
+// 1) Function Declaration — Greet by name
+function greet(name) {
+  document.write(`Hello, ${name}!<br>`);
+}
+// Tests:
+greet("Alice");
+greet("Ravi");
+greet("Mina");
+
+// 2) Function Expression — Sum of two numbers
+const add = function (a, b) {
+  return a + b;
+};
+// Tests:
+document.write("add(2, 3) = " + add(2, 3) + "<br>");
+document.write("add(-5, 10) = " + add(-5, 10) + "<br>");
+document.write("add(1.5, 2.25) = " + add(1.5, 2.25) + "<br>");
+
+// 3) Arrow Function — Square of a number
+const square = n => n * n;
+// Tests:
+document.write("square(2) = " + square(2) + "<br>");
+document.write("square(5) = " + square(5) + "<br>");
+document.write("square(10) = " + square(10) + "<br>");
+
+// 4) Function Declaration (with default parameter) — Multilingual Hello
+function greetInLanguage(name, language = "English") {
+  const hellos = {
+    English: "Hello",
+    Spanish: "Hola",
+    French: "Bonjour",
+    Hindi: "Namaste",
+    German: "Hallo",
+    Tamil: "Vanakkam"
+  };
+  const word = hellos[language] || hellos.English;
+  document.write(`${word}, ${name}!<br>`);
+}
+// Tests (includes example):
+greetInLanguage("Alice", "Spanish"); // → "Hola, Alice!"
+greetInLanguage("Rahul");            // default English
+greetInLanguage("Marie", "French");
+
+// 5) Function Expression — Celsius to Fahrenheit
+const cToF = function (c) {
+  return (c * 9) / 5 + 32;
+};
+// Tests:
+document.write("cToF(0°C) = " + cToF(0) + " °F<br>");
+document.write("cToF(25°C) = " + cToF(25) + " °F<br>");
+document.write("cToF(-10°C) = " + cToF(-10) + " °F<br>");
+
+// 6) Arrow Function — Word Count in a string
+const wordCount = str => {
+  const s = String(str).trim();
+  return s === "" ? 0 : s.split(/\s+/).length;
+};
+// Tests:
+document.write('wordCount("I love JavaScript") = ' + wordCount("I love JavaScript") + "<br>");
+document.write('wordCount("  Multiple   spaces   here ") = ' + wordCount("  Multiple   spaces   here ") + "<br>");
+document.write("wordCount(\"\") = " + wordCount("") + "<br>");
+
+// 7) Simple Closure — Personal Note
+function createNoteKeeper(note) {
+  // note is captured by the returned function (closure)
+  return function readNote() {
+    return note;
+  };
+}
+// Tests:
+const myNote = createNoteKeeper("Finish JS exercises by tonight.");
+document.write("Saved note: " + myNote() + "<br>");
+const anotherNote = createNoteKeeper("Buy milk and eggs.");
+document.write("Another note: " + anotherNote() + "<br>");
+
+        </script>
+    </body>
+</html>

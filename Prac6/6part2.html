@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JS Lab Practical 6</title>
+</head>
+<body>
+  <h2>JS Lab Practical 6 — Regular Expressions</h2>
+  <script>
+    // Task 1: Validate Mobile Number
+    document.write("<h3>Task 1: Validate Mobile Number</h3>");
+    let mobile = prompt("Enter a mobile number:");
+    let mobileRegex = /^[6-9]\d{9}$/;
+    if(mobileRegex.test(mobile)){
+      document.write("Mobile Number is VALID<br>");
+    } else {
+      document.write("Mobile Number is INVALID<br>");
+    }
+
+    // Task 2: Extract Dates from Text
+    document.write("<h3>Task 2: Extract Dates from Text</h3>");
+    let textWithDates = prompt("Enter text containing dates in DD/MM/YYYY format:");
+    let dateRegex = /\d{2}\/\d{2}\/\d{4}/g;
+    let dates = textWithDates.match(dateRegex);
+    if(dates){
+      document.write("Dates found: " + dates.join(", ") + "<br>");
+    } else {
+      document.write("No dates found.<br>");
+    }
+
+    // Task 3: Password Strength Checker
+    document.write("<h3>Task 3: Password Strength Checker</h3>");
+    let password = prompt("Enter a password:");
+    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if(passwordRegex.test(password)){
+      document.write("Password is STRONG<br>");
+    } else {
+      document.write("Password is WEAK<br>");
+    }
+
+    // Task 4: Find Duplicate Words
+    document.write("<h3>Task 4: Find Duplicate Words</h3>");
+    let dupText = prompt("Enter text to check duplicate consecutive words:");
+    let dupRegex = /\b(\w+)\s+\1\b/gi;
+    let matches = dupText.match(dupRegex);
+    if(matches){
+      document.write("Duplicate words found: " + matches.join(", ") + "<br>");
+    } else {
+      document.write("No duplicate words found.<br>");
+    }
+
+    // Task 5: Extract Hashtags from a Tweet
+    document.write("<h3>Task 5: Extract Hashtags from a Tweet</h3>");
+    let tweet = prompt("Enter a tweet:");
+    let hashRegex = /#[A-Za-z0-9_]+/g;
+    let hashtags = tweet.match(hashRegex);
+    if(hashtags){
+      document.write("Hashtags: " + hashtags.join(", ") + "<br>");
+    } else {
+      document.write("No hashtags found.<br>");
+    }
+
+    // Practice Problems
+    document.write("<h3>Practice Problems</h3>");
+
+    // PIN
+    let pin = prompt("Enter a 6-digit PIN:");
+    let pinRegex = /^\d{6}$/;
+    document.write("PIN " + pin + " → " + (pinRegex.test(pin) ? "Valid" : "Invalid") + "<br>");
+
+    // URL
+    let url = prompt("Enter a URL (e.g. https://google.com):");
+    let urlRegex = /^https?:\/\/[\w.-]+(?:\.[\w\.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]*$/;
+    document.write("URL " + url + " → " + (urlRegex.test(url) ? "Valid" : "Invalid") + "<br>");
+
+    // Extract Numbers
+    let numText = prompt("Enter text containing numbers:");
+    let nums = numText.match(/\d+/g);
+    document.write("Numbers found: " + (nums ? nums.join(", ") : "None") + "<br>");
+
+    // Extract Emails
+    let emailText = prompt("Enter text containing emails:");
+    let emails = emailText.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g);
+    document.write("Emails found: " + (emails ? emails.join(", ") : "None") + "<br>");
+  </script>
+</body>
+</html>
