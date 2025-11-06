@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gym Admission Form</title>
+<style>
+/* Only essential styling for clarity */
+.valid { color: green; }
+.invalid { color: red; }
+.is-valid { border-color: green; }
+.is-invalid { border-color: red; }
+.validation-msg { font-size: 13px; margin-top: 3px; min-height: 16px; }
+</style>
+</head>
+<body>
+<h2>🏋️‍♂️ FitZone Gym Admission Form</h2>
+
+<form id="gymForm" name="gymForm" action="/submit" method="post" novalidate>
+
+  <label>Full Name:</label><br>
+  <input type="text" id="fullName" name="fullName" required minlength="3">
+  <div id="fullNameMsg" class="validation-msg"></div><br>
+
+  <label>Email:</label><br>
+  <input type="email" id="email" name="email" required>
+  <div id="emailMsg" class="validation-msg"></div><br>
+
+  <label>Age:</label><br>
+  <input type="number" id="age" name="age" required min="18" max="60">
+  <div id="ageMsg" class="validation-msg"></div><br>
+
+  <label>Date of Birth:</label><br>
+  <input type="date" id="dob" name="dob" required>
+  <div id="dobMsg" class="validation-msg"></div><br>
+
+  <label>Password:</label><br>
+  <input type="password" id="password" name="password" required minlength="8">
+  <div id="passwordMsg" class="validation-msg"></div><br>
+
+  <label>Confirm Password:</label><br>
+  <input type="password" id="confirmPassword" name="confirmPassword" required>
+  <div id="confirmPasswordMsg" class="validation-msg"></div><br>
+
+  <label>Phone (10 digits):</label><br>
+  <input type="text" id="phone" name="phone" maxlength="10" required>
+  <div id="phoneMsg" class="validation-msg"></div><br>
+
+  <label>Gender:</label><br>
+  <input type="radio" name="gender" value="Male"> Male
+  <input type="radio" name="gender" value="Female"> Female
+  <input type="radio" name="gender" value="Other"> Other
+  <div id="genderMsg" class="validation-msg"></div><br>
+
+  <label>Membership Type:</label><br>
+  <select id="membership" name="membership" required>
+    <option value="">--Select--</option>
+    <option value="Monthly">Monthly</option>
+    <option value="Quarterly">Quarterly</option>
+    <option value="Yearly">Yearly</option>
+  </select>
+  <div id="membershipMsg" class="validation-msg"></div><br>
+
+  <label>Profile Photo:</label><br>
+  <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
+  <div id="photoMsg" class="validation-msg"></div><br>
+
+  <input type="checkbox" id="terms" name="terms"> I agree to terms & conditions
+  <div id="termsMsg" class="validation-msg"></div><br>
+
+  <button id="submitBtn" type="submit" disabled>Submit</button>
+  <button type="reset">Reset</button>
+
+  <div id="previewBox" style="border:1px dashed #aaa; padding:8px; margin-top:10px; display:none;">
+    <strong>Preview:</strong>
+    <p>Name: <span id="previewName"></span></p>
+    <p>Email: <span id="previewEmail"></span></p>
+    <p>Membership: <span id="previewMembership"></span></p>
+  </div>
+
+</form>
+
+<div id="statusMsg" class="validation-msg"></div>
+
+<script>
+// --- Form references ---
+const form = document.getElementById('gymForm');
+const elements = form.elements;
+const fullName = elements.fullName;
+const email = elements.email;
+const age = elements.age;
+const dob = elements.dob;
+const password = elements.password;
+const confirmPassword = elements.confirmPassword;
+const phone = elements.phone;
+const gender = elements.gender;
+const membership = elements.membership;
+const photo = elements.photo;
+const terms = elements.terms;
+const submitBtn = document.getElementById('submitBtn');
+
+const msgs = {
+  fullNameMsg, emailMsg, ageMsg, dobMsg,
+  passwordMsg, confirmPasswordMsg,
+  phoneMsg, genderMsg, membershipMsg,
+  photoMsg, termsMsg, statusMsg
+};
+
+// preview elements
+const previewBox = document.getElementById('previewBox');
+const previewName = document.getElementById('previewName');
+const previewEmail = document.getElementById('previewEmail');
+const previewMembership = document.getElementById('previewMembership');
+
+// --- Helper to mark valid/invalid ---
+function setValidation(input, msgEl, ok, msg) {
+  input.classList.toggle('is-valid', ok);
+  input.classList.toggle('is-invalid', !ok);
+  msgEl.className = ok ? 'validation-msg valid' : 'validation-msg invalid';
+  msgEl.textContent = msg;
+}
+
+// --- Validators ---
+function validateName() {
+  const v = fullName.value.trim();
+  if (v.length < 3) { setValidation(fullName, msgs.fullNameMsg, false, "❌ At least 3 letters"); return false; }
+  if (!/^[A-Za-z\s]+$/.test(v)) { setValidation(fullName, msgs.fullNameMsg, false, "❌ Only letters allowed"); return false; }
+  setValidation(fullName, msgs.fullNameMsg, true, "✅ Looks good"); return true;
+}
+
+function validateEmail() {
+  const re = /^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/;
+  if (!re.test(email.value.trim())) { setValidation(email, msgs.emailMsg, false, "❌ Invalid email"); return false; }
+  setValidation(email, msgs.emailMsg, true, "✅ Valid email"); return true;
+}
+
+function validateAge() {
+  const n = Number(age.value);
+  if (!n || n < 18 || n > 60) { setValidation(age, msgs.ageMsg, false, "❌ Age 18–60 only"); return false; }
+  setValidation(age, msgs.ageMsg, true, "✅ Valid age"); return true;
+}
+
+function validateDOB() {
+  const v = dob.value; if (!v) { setValidation(dob, msgs.dobMsg, false, "❌ Required"); return false; }
+  const date = new Date(v); const now = new Date();
+  if (date > now) { setValidation(dob, msgs.dobMsg, false, "❌ Future date not allowed"); return false; }
+  setValidation(dob, msgs.dobMsg, true, "✅ Valid date"); return true;
+}
+
+function validatePassword() {
+  const v = password.value;
+  const ok = /[A-Z]/.test(v) && /[a-z]/.test(v) && /\d/.test(v) && /[@#$%^&*!]/.test(v) && v.length >= 8;
+  if (!ok) { setValidation(password, msgs.passwordMsg, false, "❌ Weak password"); return false; }
+  setValidation(password, msgs.passwordMsg, true, "✅ Strong password"); return true;
+}
+
+function validateConfirm() {
+  if (confirmPassword.value !== password.value) { setValidation(confirmPassword, msgs.confirmPasswordMsg, false, "❌ Not matching"); return false; }
+  setValidation(confirmPassword, msgs.confirmPasswordMsg, true, "✅ Match"); return true;
+}
+
+function validatePhone() {
+  if (!/^\d{10}$/.test(phone.value.trim())) { setValidation(phone, msgs.phoneMsg, false, "❌ 10 digits only"); return false; }
+  setValidation(phone, msgs.phoneMsg, true, "✅ Valid"); return true;
+}
+
+function validateGender() {
+  const selected = document.querySelector('input[name="gender"]:checked');
+  if (!selected) { msgs.genderMsg.textContent = "❌ Select gender"; msgs.genderMsg.className="validation-msg invalid"; return false; }
+  msgs.genderMsg.textContent = "✅ Gender selected"; msgs.genderMsg.className="validation-msg valid"; return true;
+}
+
+function validateMembership() {
+  if (!membership.value) { setValidation(membership, msgs.membershipMsg, false, "❌ Select membership"); return false; }
+  setValidation(membership, msgs.membershipMsg, true, "✅ Selected"); return true;
+}
+
+function validatePhoto() {
+  const f = photo.files[0];
+  if (!f) { msgs.photoMsg.textContent = "❌ Upload photo"; msgs.photoMsg.className="validation-msg invalid"; return false; }
+  if (f.size > 1024*1024) { msgs.photoMsg.textContent = "❌ Max 1MB"; msgs.photoMsg.className="validation-msg invalid"; return false; }
+  msgs.photoMsg.textContent = "✅ OK"; msgs.photoMsg.className="validation-msg valid"; return true;
+}
+
+function validateTerms() {
+  if (!terms.checked) { msgs.termsMsg.textContent = "❌ Accept terms"; msgs.termsMsg.className="validation-msg invalid"; return false; }
+  msgs.termsMsg.textContent = "✅ Accepted"; msgs.termsMsg.className="validation-msg valid"; return true;
+}
+
+// --- Combined check ---
+function checkAll() {
+  const ok = validateName() && validateEmail() && validateAge() && validateDOB()
+    && validatePassword() && validateConfirm() && validatePhone()
+    && validateGender() && validateMembership() && validatePhoto() && validateTerms();
+  submitBtn.disabled = !ok;
+  if (validateName() && validateEmail() && validateMembership()) {
+    previewName.textContent = fullName.value;
+    previewEmail.textContent = email.value;
+    previewMembership.textContent = membership.value;
+    previewBox.style.display = "block";
+  } else previewBox.style.display = "none";
+  return ok;
+}
+
+// --- Event bindings ---
+form.addEventListener("input", checkAll);
+form.addEventListener("change", checkAll);
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  if (!checkAll()) { msgs.statusMsg.textContent = "❌ Fix errors first"; return; }
+  if (confirm(`Submit to ${form.action} using ${form.method}?`)) {
+    msgs.statusMsg.textContent = "✅ Submitted successfully!";
+    form.reset();
+    previewBox.style.display = "none";
+    submitBtn.disabled = true;
+  }
+});
+form.addEventListener("reset", () => {
+  setTimeout(() => {
+    document.querySelectorAll(".validation-msg").forEach(m => m.textContent = "");
+    document.querySelectorAll(".is-valid, .is-invalid").forEach(e => e.classList.remove("is-valid","is-invalid"));
+    previewBox.style.display = "none";
+    msgs.statusMsg.textContent = "";
+    submitBtn.disabled = true;
+  }, 0);
+});
+
+checkAll();
+</script>
+</body>
+</html>

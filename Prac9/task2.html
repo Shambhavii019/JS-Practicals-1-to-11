@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Task 2 — Theme Switcher (localStorage)</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, Arial; transition: background .2s, color .2s; }
+    .wrap { max-width: 680px; margin: 24px auto; }
+    .card { padding: 16px; border: 1px solid #ccc; border-radius: 8px; }
+    .row { margin: 10px 0; }
+    .dark {
+      background: #121212; color: #e8e8e8;
+    }
+    .light {
+      background: #ffffff; color: #111111;
+    }
+  </style>
+  <script>
+    // Apply saved theme ASAP (before body shows) to avoid flash
+    (function applySavedThemeEarly(){
+      const saved = localStorage.getItem("t2_theme") || "light";
+      document.documentElement.dataset.theme = saved;
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.toggle("dark", saved === "dark");
+        document.body.classList.toggle("light", saved !== "dark");
+      });
+    })();
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Task 2 — Theme Switcher</h2>
+    <div class="card">
+      <div class="row">
+        <label>
+          <input id="themeToggle" type="checkbox">
+          Dark mode
+        </label>
+      </div>
+      <p id="status">Current theme: <strong>light</strong></p>
+    </div>
+  </div>
+
+  <script>
+    const toggle = document.getElementById("themeToggle");
+    const status = document.getElementById("status");
+
+    // Initialize checkbox from storage
+    const initial = localStorage.getItem("t2_theme") || "light";
+    toggle.checked = (initial === "dark");
+    updateUI(initial);
+
+    // Toggle handler
+    toggle.addEventListener("change", () => {
+      const theme = toggle.checked ? "dark" : "light";
+      localStorage.setItem("t2_theme", theme);
+      updateUI(theme);
+    });
+
+    function updateUI(theme) {
+      document.body.classList.toggle("dark", theme === "dark");
+      document.body.classList.toggle("light", theme !== "dark");
+      status.innerHTML = `Current theme: <strong>${theme}</strong>`;
+    }
+  </script>
+</body>
+</html>

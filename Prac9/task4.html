@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Task 4 — Auto-Save Form Draft</title>
+  <style>
+    body { font-family: system-ui, Arial; max-width: 680px; margin: 24px auto; }
+    .row { margin: 10px 0; }
+    input, textarea, select { padding: 6px; width: 100%; max-width: 520px; }
+  </style>
+</head>
+<body>
+  <h2>Task 4 — Auto-Save Form Draft (localStorage)</h2>
+
+  <form id="contactForm" action="/fake-endpoint" method="post">
+    <div class="row">
+      <label for="name">Name</label><br>
+      <input id="name" name="name" type="text" placeholder="Your name">
+    </div>
+    <div class="row">
+      <label for="email">Email</label><br>
+      <input id="email" name="email" type="email" placeholder="you@example.com">
+    </div>
+    <div class="row">
+      <label for="topic">Topic</label><br>
+      <select id="topic" name="topic">
+        <option value="">-- choose --</option>
+        <option>General</option>
+        <option>Membership</option>
+        <option>Payments</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="message">Message</label><br>
+      <textarea id="message" name="message" rows="5" placeholder="Type your message"></textarea>
+    </div>
+
+    <div class="row">
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+      <button type="button" id="clearDraft">Clear Draft Only</button>
+    </div>
+    <p id="status"></p>
+  </form>
+
+  <script>
+    const FORM_KEY = "t4_draft";
+    const form = document.getElementById("contactForm");
+    const status = document.getElementById("status");
+
+    // Load any saved draft on startup
+    const saved = localStorage.getItem(FORM_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      for (const [name, value] of Object.entries(data)) {
+        const el = form.elements[name];
+        if (el) el.value = value;
+      }
+      status.textContent = "Draft restored from localStorage.";
+    }
+
+    // Save draft on input/change
+    form.addEventListener("input", saveDraft);
+    form.addEventListener("change", saveDraft);
+
+    function saveDraft() {
+      const data = {};
+      // Using form.elements to iterate all controls
+      for (const el of form.elements) {
+        if (!el.name) continue;
+        if (el.type === "button" || el.type === "submit" || el.type === "reset") continue;
+        data[el.name] = el.value;
+      }
+      localStorage.setItem(FORM_KEY, JSON.stringify(data));
+      status.textContent = "Draft saved.";
+    }
+
+    // Submit: pretend to send, then clear draft
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      localStorage.removeItem(FORM_KEY);
+      status.textContent = `✅ Submitted to ${form.action} via ${form.method}. Draft cleared.`;
+      form.reset();
+    });
+
+    // Reset: also clear draft (so form & storage are in sync)
+    form.addEventListener("reset", () => {
+      setTimeout(() => {
+        localStorage.removeItem(FORM_KEY);
+        status.textContent = "Form reset and draft cleared.";
+      }, 0);
+    });
+
+    // Clear draft only (keep current inputs on screen)
+    document.getElementById("clearDraft").onclick = () => {
+      localStorage.removeItem(FORM_KEY);
+      status.textContent = "Draft removed from localStorage.";
+    };
+  </script>
+</body>
+</html>

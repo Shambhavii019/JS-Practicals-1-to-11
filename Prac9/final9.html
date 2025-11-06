@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Personal Dashboard</title>
+<style>
+body {
+  font-family: Verdana, sans-serif;
+  transition: all 0.4s ease;
+  text-align: center;
+  padding: 20px;
+}
+.dark { background-color: #121212; color: white; }
+.light { background-color: #ffffff; color: black; }
+#controls button, select {
+  margin: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<h1 id="welcomeText">Welcome!</h1>
+
+<div id="controls">
+  <input type="text" id="userName" placeholder="Enter your name">
+  <button id="saveUser">Save Name</button>
+
+  <button id="themeBtn">Switch Theme</button>
+
+  <select id="fontChooser">
+    <option value="small">Small</option>
+    <option value="medium">Medium</option>
+    <option value="large">Large</option>
+  </select>
+
+  <button id="resetPrefs">Reset Preferences</button>
+</div>
+
+<p id="tabCounter"></p>
+
+<h3>Feedback</h3>
+<textarea id="feedback" rows="5" cols="40" placeholder="Your feedback..."></textarea>
+
+<script>
+/* ===========================================================
+   ✅ TASK 1 — THEME (localStorage)
+   =========================================================== */
+
+// Use ONE consistent key
+const THEME_KEY = "theme";
+
+// Load saved theme (default = light)
+let savedTheme = localStorage.getItem(THEME_KEY) || "light";
+
+// Apply saved theme
+document.body.classList.add(savedTheme);
+
+// Toggle theme on click
+document.getElementById("themeBtn").onclick = function () {
+  const newTheme = document.body.classList.contains("light") ? "dark" : "light";
+
+  // Remove previous, add new
+  document.body.classList.remove("light", "dark");
+  document.body.classList.add(newTheme);
+
+  // Save
+  localStorage.setItem(THEME_KEY, newTheme);
+};
+
+/* ===========================================================
+   ✅ TASK 2 — FONT SIZE (localStorage)
+   =========================================================== */
+
+const FONT_KEY = "fontSizePref";
+const fontSelect = document.getElementById("fontChooser");
+
+// Load saved font size
+let savedFont = localStorage.getItem(FONT_KEY);
+if (savedFont) {
+  fontSelect.value = savedFont;
+  document.body.style.fontSize = savedFont;
+}
+
+// Change font size
+fontSelect.onchange = function () {
+  const size = fontSelect.value;
+  document.body.style.fontSize = size;
+  localStorage.setItem(FONT_KEY, size);
+};
+
+/* ===========================================================
+   ✅ TASK 3 — USERNAME (localStorage)
+   =========================================================== */
+
+const USER_KEY = "username";
+
+document.getElementById("saveUser").onclick = function () {
+  const name = document.getElementById("userName").value.trim();
+  localStorage.setItem(USER_KEY, name);
+
+  document.getElementById("welcomeText").innerText = `Welcome, ${name}!`;
+};
+
+// Auto load username
+const savedUser = localStorage.getItem(USER_KEY);
+if (savedUser) {
+  document.getElementById("welcomeText").innerText = `Welcome, ${savedUser}!`;
+  document.getElementById("userName").value = savedUser;
+}
+
+/* ===========================================================
+   ✅ TASK 4 — SESSION COUNTER (sessionStorage)
+   =========================================================== */
+
+const COUNT_KEY = "visits";
+
+// convert value → number → increment
+let count = Number(sessionStorage.getItem(COUNT_KEY) || 0);
+count++;
+sessionStorage.setItem(COUNT_KEY, count);
+
+// Show count
+document.getElementById("tabCounter").innerHTML =
+  `This tab has been refreshed ${count} times.`;
+
+/* ===========================================================
+   ✅ TASK 5 — FEEDBACK DRAFT (sessionStorage)
+   =========================================================== */
+
+const FEEDBACK_KEY = "feedbackText";
+const fb = document.getElementById("feedback");
+
+// Save draft on typing
+fb.addEventListener("input", () => {
+  sessionStorage.setItem(FEEDBACK_KEY, fb.value);
+});
+
+// Restore draft
+const savedFeedback = sessionStorage.getItem(FEEDBACK_KEY);
+if (savedFeedback) fb.value = savedFeedback;
+
+/* ===========================================================
+   ✅ FINAL TASK — RESET PREFERENCES (CLEAR localStorage ONLY)
+   =========================================================== */
+
+document.getElementById("resetPrefs").onclick = () => {
+  localStorage.clear();   // clear permanent settings
+  location.reload();      // sessionStorage remains
+};
+</script>
+
+</body>
+</html>

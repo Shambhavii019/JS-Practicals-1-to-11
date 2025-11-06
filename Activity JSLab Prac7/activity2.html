@@ -1,0 +1,108 @@
+<html>
+<head>
+  <title>Two Player Dice Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    .history p { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>🎲 Two Player Dice Game 🎲</h1>
+  <button id="startBtn">Start Game</button>
+  <button id="nextBtn" style="display:none;">Next Round</button>
+  <button id="restartBtn" style="display:none;">Play Again</button>
+
+  <h2 id="roundHeader"></h2>
+  <p id="player1Total">Player 1 Total: 0</p>
+  <p id="player2Total">Player 2 Total: 0</p>
+
+  <div class="history" id="history"></div>
+
+  <script>
+    let round = 1;
+    let player1Total = 0;
+    let player2Total = 0;
+    const MAX_ROUNDS = 3;
+
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const roundHeader = document.getElementById("roundHeader");
+    const historyDiv = document.getElementById("history");
+
+    function rollDie() {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+
+    function updateTotals() {
+      // querySelector used to update totals dynamically
+      document.querySelector("#player1Total").textContent =
+        "Player 1 Total: " + player1Total;
+      document.querySelector("#player2Total").textContent =
+        "Player 2 Total: " + player2Total;
+    }
+
+    function playRound() {
+      let roll1 = rollDie();
+      let roll2 = rollDie();
+
+      player1Total += roll1;
+      player2Total += roll2;
+
+      roundHeader.textContent = "Round " + round;
+
+      // createElement + appendChild for history
+      let p = document.createElement("p");
+      p.textContent = `Round ${round}: 🎲 Player 1 rolled ${roll1}, 🎲 Player 2 rolled ${roll2}`;
+      historyDiv.appendChild(p);
+
+      // Update totals
+      updateTotals();
+
+      if (round < MAX_ROUNDS) {
+        round++;
+        startBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      } else {
+        endGame();
+      }
+    }
+
+    function endGame() {
+      let result = "";
+      if (player1Total > player2Total) {
+        result = "🏆 Player 1 Wins!";
+      } else if (player2Total > player1Total) {
+        result = "🏆 Player 2 Wins!";
+      } else {
+        result = "🤝 It's a Tie!";
+      }
+
+      let p = document.createElement("p");
+      p.innerHTML = "<strong>Game Over! " + result + "</strong>";
+      historyDiv.appendChild(p);
+
+      nextBtn.style.display = "none";
+      restartBtn.style.display = "inline-block";
+    }
+
+    function restartGame() {
+      round = 1;
+      player1Total = 0;
+      player2Total = 0;
+      roundHeader.textContent = "";
+      historyDiv.innerHTML = "";
+      updateTotals();
+
+      startBtn.style.display = "inline-block";
+      nextBtn.style.display = "none";
+      restartBtn.style.display = "none";
+    }
+
+    // Button events
+    startBtn.addEventListener("click", playRound);
+    nextBtn.addEventListener("click", playRound);
+    restartBtn.addEventListener("click", restartGame);
+  </script>
+</body>
+</html>
