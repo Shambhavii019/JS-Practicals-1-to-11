@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory Manager</title>
+
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+        .highlight {
+            background-color: lightgreen;
+        }
+        .container {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee Directory (Fetch API)</h2>
+    <label>Select Department: </label>
+    <select id="deptFilter">
+        <option value="All">All</option>
+    </select>
+    <div id="fetchTable"></div>
+
+    <h2>Employee Directory (jQuery $.getJSON)</h2>
+    <div id="jqueryTable"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
